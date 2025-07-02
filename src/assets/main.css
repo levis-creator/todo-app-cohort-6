@@ -1,0 +1,5 @@
+@import './base.css';
+body{
+  background: whitesmoke;
+  min-height: 100vh;
+}
