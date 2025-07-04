@@ -1,6 +1,8 @@
 <script setup>
 import { defineProps } from "vue";
-const { data } = defineProps(['data'])
+const { data, index } = defineProps(['data', 'index'])
+
+const emit=defineEmits(['delete', 'edit'])
 </script>
 <template>
   <div class="bg-white shadow-md rounded-md p-4 hover:shadow-2xl">
@@ -13,8 +15,8 @@ const { data } = defineProps(['data'])
       <p v-else class="text-gray-500 italic">no description</p>
     </div>
     <div class="flex justify-end gap-3">
-      <span>edit</span>
-      <span>delete</span>
+      <button @click="$emit('delete',index)">delete</button>
+      <button @click="$emit('edit',index)">edit</button>
     </div>
   </div>
 </template>

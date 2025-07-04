@@ -1,7 +1,33 @@
 <script setup>
+import { ref, watch } from 'vue';
+
 const emit = defineEmits(['close', 'submit'])
+const {initialData}=defineProps(['initialData'])
+const formData=ref({
+  title:'',
+  description:""
+})
+
+watch(
+  ()=>initialData,
+  (val)=>{
+    if(val){
+      formData.value.title=val.title;
+      formData.value.description=val.description;
+    }else{
+      formData.value.title='';
+      formData.value.description='';
+    }
+  },
+  {immediate:true}
+)
+
 function closeForm() {
   emit('close')
+}
+
+function handleSubmit() {
+  emit('submit', formData.value)
 }
 </script>
 <template>
@@ -14,14 +40,14 @@ function closeForm() {
         <button @click="closeForm">close</button>
       </div>
       <div>
-        <form>
+        <form @submit.prevent="handleSubmit">
           <div class="form-container">
             <label for="title">Title</label>
-            <input class="form-input" type="text" name="title" id="title">
+            <input v-model="formData.title" class="form-input" type="text" name="title" id="title">
           </div>
           <div class="form-container">
             <label for="description">Description</label>
-            <textarea class="form-input" type="text" name="description" id="description" />
+            <textarea v-model="formData.description" class="form-input" name="description" id="description" />
           </div>
           <div class="flex justify-end gap-2">
             <button class="primary-btn" type="submit">
